@@ -159,7 +159,7 @@ color:#777;
 
 <section>
 <h2>Подтвердите присутствие</h2>
-<button onclick="window.location.href='ВАША_ССЫЛКА_GOOGLE_FORMS'">
+<button onclick="window.location.href='https://docs.google.com/forms/d/e/1FAIpQLScur5szpMVi-y6N-c0YRXQEpkw_ZK3IDu4pFglyk1Bv99c1EQ/viewform?usp=header'">
 Перейти к подтверждению
 </button>
 </section>
@@ -177,9 +177,7 @@ const distance = weddingDate - now;
 const days = Math.floor(distance/(1000*60*60*24));
 const hours = Math.floor((distance%(1000*60*60*24))/(1000*60*60));
 const minutes = Math.floor((distance%(1000*60*60))/(1000*60));
-const seconds = Math.floor((distance%(1000*60))/1000);
-
-document.getElementById("days").innerHTML=days;
+const seconds = Math.floor((distance%(1000*60))/1000);document.getElementById("days").innerHTML=days;
 document.getElementById("hours").innerHTML=hours;
 document.getElementById("minutes").innerHTML=minutes;
 document.getElementById("seconds").innerHTML=seconds;
