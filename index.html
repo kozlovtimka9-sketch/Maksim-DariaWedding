@@ -221,9 +221,23 @@ color:#777;
 </div>
 
 <!-- 🎵 Музыка -->
-<audio id="bgMusic" loop>
-<source src="music.mp3" type="audio/mpeg">
+<audio id="bgMusic" loop preload="auto">
+  <source src="music.mp3" type="audio/mpeg">
 </audio>
+
+<button id="musicBtn" style="
+position:fixed;
+bottom:20px;
+right:20px;
+padding:10px 20px;
+background:#000;
+color:#d4af37;
+border:1px solid #d4af37;
+cursor:pointer;
+z-index:999;
+">
+Включить музыку
+</button>
 
 <section class="hero">
 <h1>Максим & Дарья</h1>
@@ -265,9 +279,24 @@ color:#777;
 </footer>
 
 <script>
+
+const music = document.getElementById("bgMusic");
+const musicBtn = document.getElementById("musicBtn");
+
+music.volume = 0.5;
+
+// Кнопка запуска
+musicBtn.addEventListener("click", function(){
+    music.play().then(()=>{
+        musicBtn.innerText = "Музыка играет";
+    }).catch(()=>{
+        alert("Браузер блокирует звук. Попробуйте ещё раз.");
+    });
+});
+
+// Конверт
 function openEnvelope(){
 
-// открытие конверта
 document.querySelector(".envelope").classList.add("open");
 
 setTimeout(()=>{
@@ -277,30 +306,9 @@ document.getElementById("envelopeScreen").style.display="none";
 },1000);
 },1200);
 
-// 🎵 запуск музыки безопасным способом
-let music = document.getElementById("bgMusic");
-
-music.volume = 0.5;
-
-let playPromise = music.play();
-
-if (playPromise !== undefined) {
-  playPromise.then(_ => {
-    console.log("Музыка играет");
-  })
-  .catch(error => {
-    console.log("Автозапуск заблокирован, пробуем через дополнительный клик");
-
-    // если браузер заблокировал — запускаем при любом следующем клике
-    document.body.addEventListener("click", function(){
-      music.play();
-    }, { once: true });
-
-  });
 }
 
-}
-
+// Таймер
 const weddingDate = new Date("June 6, 2026 19:00:00").getTime();
 
 setInterval(()=>{
@@ -312,6 +320,9 @@ document.getElementById("hours").innerHTML=Math.floor((distance%(1000*60*60*24))
 document.getElementById("minutes").innerHTML=Math.floor((distance%(1000*60*60))/(1000*60));
 document.getElementById("seconds").innerHTML=Math.floor((distance%(1000*60))/1000);
 },1000);
+
 </script>
+</body>
 </html>
+
 
