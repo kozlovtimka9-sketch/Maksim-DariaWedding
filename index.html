@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Максим & Дарья — 06.06.2026</title>
 
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;500;700&family=Playfair+Display:wght@400;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;600;700&display=swap" rel="stylesheet">
 
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
@@ -14,30 +14,36 @@ body{
 background:#000;
 color:#d4af37;
 font-family:'Cormorant Garamond',serif;
-scroll-behavior:smooth;
 overflow-x:hidden;
+scroll-behavior:smooth;
 }
 
-/* ================== 💌 ENVELOPE ================== */
+/* ==================== 💌 3D ENVELOPE ==================== */
 
 #envelopeScreen{
 position:fixed;
 width:100%;
 height:100%;
-background:#000;
+background:radial-gradient(circle at center,#111 0%,#000 70%);
 display:flex;
 justify-content:center;
 align-items:center;
 z-index:9999;
+perspective:1200px;
 transition:1s;
 }
 
 .envelope{
+width:350px;
+height:220px;
 position:relative;
-width:320px;
-height:200px;
+transform-style:preserve-3d;
 cursor:pointer;
-perspective:1000px;
+transition:1s;
+}
+
+.envelope:hover{
+transform:rotateY(8deg) rotateX(5deg);
 }
 
 .envelope-body{
@@ -45,51 +51,43 @@ position:absolute;
 width:100%;
 height:100%;
 background:#111;
-border:1px solid #d4af37;
+border:2px solid #d4af37;
+box-shadow:0 0 40px rgba(212,175,55,0.3);
 }
 
 .flap{
 position:absolute;
-top:0;
 width:100%;
-height:100px;
+height:110px;
 background:#111;
-border:1px solid #d4af37;
+border:2px solid #d4af37;
 transform-origin:top;
-transition:1s;
-}
-
-.letter{
-position:absolute;
-width:90%;
-height:90%;
-background:#000;
-top:5%;
-left:5%;
-display:flex;
-flex-direction:column;
-justify-content:center;
-align-items:center;
-text-align:center;
-border:1px solid #d4af37;
-padding:20px;
-color:#d4af37;
+transition:1.2s;
 }
 
 .envelope.open .flap{
 transform:rotateX(180deg);
 }
 
-/* ================== ✨ BACKGROUND PATTERN ================== */
-
-section:not(.hero):not(.location){
-background:
-radial-gradient(circle at 20% 30%, rgba(212,175,55,0.08) 0%, transparent 60%),
-radial-gradient(circle at 80% 70%, rgba(212,175,55,0.08) 0%, transparent 60%),
-linear-gradient(#000,#000);
+.letter{
+position:absolute;
+width:90%;
+height:85%;
+top:7%;
+left:5%;
+background:#000;
+border:1px solid #d4af37;
+display:flex;
+flex-direction:column;
+justify-content:center;
+align-items:center;
+text-align:center;
+padding:20px;
+color:#d4af37;
+box-shadow:0 0 30px rgba(212,175,55,0.2);
 }
 
-/* ================== GENERAL ================== */
+/* ==================== ✨ ANIMATED BACKGROUND ==================== */
 
 section{
 min-height:100vh;
@@ -98,16 +96,94 @@ flex-direction:column;
 justify-content:center;
 align-items:center;
 text-align:center;
-padding:40px 20px;
+padding:60px 20px;
+position:relative;
+background:linear-gradient(180deg,#000 0%,#0b0b0b 100%);
+overflow:hidden;
 }
 
-h1{font-size:60px;letter-spacing:4px}
-h2{font-size:40px;margin-bottom:20px}
-p{max-width:700px;font-size:22px;line-height:1.6;color:#eee}
+section::before{
+content:"";
+position:absolute;
+width:200%;
+height:200%;
+background:
+radial-gradient(circle,rgba(212,175,55,0.08) 1px,transparent 1px);
+background-size:60px 60px;
+animation:moveBg 60s linear infinite;
+opacity:0.2;
+}
+
+@keyframes moveBg{
+0%{transform:translate(0,0)}
+100%{transform:translate(-200px,-200px)}
+}
+
+h1{
+font-size:64px;
+letter-spacing:4px;
+text-shadow:0 0 20px rgba(212,175,55,0.5);
+}
+
+h2{
+font-size:42px;
+margin-bottom:20px;
+position:relative;
+}
+
+h2::after{
+content:"";
+width:140px;
+height:1px;
+background:#d4af37;
+position:absolute;
+bottom:-10px;
+left:50%;
+transform:translateX(-50%);
+}
+
+p{
+max-width:750px;
+font-size:22px;
+line-height:1.6;
+color:#eee;
+}
+
+/* ==================== 📅 GLASS COUNTDOWN ==================== */
+
+.calendar{
+display:flex;
+gap:25px;
+flex-wrap:wrap;
+margin-top:40px;
+}
+
+.calendar-box{
+width:140px;
+padding:25px 15px;
+border:1px solid rgba(212,175,55,0.4);
+backdrop-filter:blur(10px);
+background:rgba(255,255,255,0.05);
+border-radius:12px;
+transition:0.5s;
+}
+
+.calendar-box:hover{
+transform:translateY(-10px) scale(1.05);
+box-shadow:0 10px 40px rgba(212,175,55,0.3);
+}
+
+.calendar-box span{
+font-size:40px;
+color:#fff;
+display:block;
+}
+
+/* ==================== BUTTON ==================== */
 
 button{
-margin-top:30px;
-padding:12px 30px;
+margin-top:40px;
+padding:14px 40px;
 border:1px solid #d4af37;
 background:transparent;
 color:#d4af37;
@@ -119,69 +195,22 @@ transition:0.4s;
 button:hover{
 background:#d4af37;
 color:#000;
+box-shadow:0 0 20px rgba(212,175,55,0.6);
 }
 
-/* ================== HERO ================== */
+/* ==================== FADE IN ==================== */
 
-.hero{
-background:url("PHOTO1.jpg") center/cover no-repeat;
-position:relative;
+section{
+animation:fadeUp 1.5s ease forwards;
 }
 
-.hero::after,
-.location::after{
-content:"";
-position:absolute;
-top:0;left:0;
-width:100%;height:100%;
-background:rgba(0,0,0,0.65);
-}
-
-.hero-content,
-.location-content{
-position:relative;
-z-index:2;
-animation:fadeIn 2s ease forwards;
-}
-
-@keyframes fadeIn{
-from{opacity:0;transform:translateY(30px)}
+@keyframes fadeUp{
+from{opacity:0;transform:translateY(40px)}
 to{opacity:1;transform:translateY(0)}
-}
-
-/* ================== 📅 CALENDAR COUNTDOWN ================== */
-
-.calendar{
-display:flex;
-gap:20px;
-flex-wrap:wrap;
-justify-content:center;
-margin-top:30px;
-}
-
-.calendar-box{
-width:120px;
-border:1px solid #d4af37;
-padding:15px;
-background:#111;
-}
-
-.calendar-box span{
-font-size:36px;
-display:block;
-color:#fff;
-}
-
-/* ================== LOCATION ================== */
-
-.location{
-background:url("PHOTO2.jpg") center/cover no-repeat;
-position:relative;
 }
 
 footer{
 padding:40px;
-text-align:center;
 color:#777;
 }
 </style>
@@ -189,37 +218,29 @@ color:#777;
 
 <body>
 
-<!-- 💌 ENVELOPE -->
 <div id="envelopeScreen">
-  <div class="envelope" onclick="openEnvelope()">
-    <div class="flap"></div>
-    <div class="envelope-body"></div>
-    <div class="letter">
-      <h2>Максим & Дарья</h2>
-      <p>06 июня 2026</p>
-      <small>Нажмите, чтобы открыть</small>
-    </div>
-  </div>
+<div class="envelope" onclick="openEnvelope()">
+<div class="flap"></div>
+<div class="envelope-body"></div>
+<div class="letter">
+<h2>Максим & Дарья</h2>
+<p>06 июня 2026</p>
+<small>Нажмите, чтобы открыть приглашение</small>
+</div>
+</div>
 </div>
 
-<!-- 🎵 MUSIC -->
 <audio id="bgMusic" loop>
 <source src="https://cdn.pixabay.com/download/audio/2022/03/15/audio_c8c8a73467.mp3?filename=wedding-piano-110624.mp3" type="audio/mpeg">
-</audio>
-
-<section class="hero">
-<div class="hero-content">
+</audio><section>
 <h1>Максим & Дарья</h1>
 <p>06 июня 2026 • Одесса</p>
-</div>
 </section>
 
 <section>
 <h2>С любовью приглашаем</h2>
 <p>
-С трепетом в сердце и огромной любовью  
-мы приглашаем вас разделить с нами самый важный день нашей жизни.  
-6 июня 2026 года в 19:00мы станем семьёй и будем счастливы видеть вас рядом.
+С трепетом в сердце и огромной любовью мы приглашаем вас разделить с нами самый важный день нашей жизни.
 </p>
 </section>
 
@@ -233,21 +254,10 @@ color:#777;
 </div>
 </section>
 
-<section class="location">
-<div class="location-content">
-<h2>Место проведения</h2>
-<p>
-Ресторан «У бабушки»  
-г. Одесса  
-Начало в 19:00
-</p>
-</div>
-</section>
-
 <section>
 <h2>Дресс-код</h2>
 <p>
-Для дам — вечерние платья в благородных оттенках.  
+Для дам — элегантные вечерние платья в благородных оттенках.  
 Для джентльменов — классические костюмы или смокинги.
 </p>
 </section>
@@ -271,23 +281,23 @@ document.getElementById("envelopeScreen").style.opacity="0";
 setTimeout(()=>{
 document.getElementById("envelopeScreen").style.display="none";
 },1000);
-},1000);
+},1200);
 
-const music = document.getElementById("bgMusic");
-music.volume = 0.4;
-music.play();
+const music=document.getElementById("bgMusic");
+music.volume=0.4;
+music.play().catch(()=>{});
 }
 
-const weddingDate = new Date("June 6, 2026 19:00:00").getTime();
+const weddingDate=new Date("June 6, 2026 19:00:00").getTime();
 
-setInterval(function(){
-const now = new Date().getTime();
-const distance = weddingDate - now;
+setInterval(()=>{
+const now=new Date().getTime();
+const distance=weddingDate-now;
 
-const days = Math.floor(distance/(1000*60*60*24));
-const hours = Math.floor((distance%(1000*60*60*24))/(1000*60*60));
-const minutes = Math.floor((distance%(1000*60*60))/(1000*60));
-const seconds = Math.floor((distance%(1000*60))/1000);
+const days=Math.floor(distance/(1000*60*60*24));
+const hours=Math.floor((distance%(1000*60*60*24))/(1000*60*60));
+const minutes=Math.floor((distance%(1000*60*60))/(1000*60));
+const seconds=Math.floor((distance%(1000*60))/1000);
 
 document.getElementById("days").innerHTML=days;
 document.getElementById("hours").innerHTML=hours;
@@ -298,4 +308,3 @@ document.getElementById("seconds").innerHTML=seconds;
 
 </body>
 </html>
-
