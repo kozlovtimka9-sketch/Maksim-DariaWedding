@@ -18,13 +18,13 @@ overflow-x:hidden;
 scroll-behavior:smooth;
 }
 
-/* ==================== 💌 3D ENVELOPE ==================== */
+/* ===== 3D КОНВЕРТ ===== */
 
 #envelopeScreen{
 position:fixed;
 width:100%;
 height:100%;
-background:radial-gradient(circle at center,#111 0%,#000 70%);
+background:#000;
 display:flex;
 justify-content:center;
 align-items:center;
@@ -40,10 +40,6 @@ position:relative;
 transform-style:preserve-3d;
 cursor:pointer;
 transition:1s;
-}
-
-.envelope:hover{
-transform:rotateY(8deg) rotateX(5deg);
 }
 
 .envelope-body{
@@ -83,11 +79,9 @@ justify-content:center;
 align-items:center;
 text-align:center;
 padding:20px;
-color:#d4af37;
-box-shadow:0 0 30px rgba(212,175,55,0.2);
 }
 
-/* ==================== ✨ ANIMATED BACKGROUND ==================== */
+/* ===== СЕКЦИИ ===== */
 
 section{
 min-height:100vh;
@@ -105,24 +99,17 @@ overflow:hidden;
 section::before{
 content:"";
 position:absolute;
-width:200%;
-height:200%;
+width:100%;
+height:100%;
 background:
-radial-gradient(circle,rgba(212,175,55,0.08) 1px,transparent 1px);
-background-size:60px 60px;
-animation:moveBg 60s linear infinite;
-opacity:0.2;
-}
-
-@keyframes moveBg{
-0%{transform:translate(0,0)}
-100%{transform:translate(-200px,-200px)}
+radial-gradient(circle at 30% 20%, rgba(212,175,55,0.08), transparent 60%),
+radial-gradient(circle at 70% 80%, rgba(212,175,55,0.08), transparent 60%);
+pointer-events:none;
 }
 
 h1{
 font-size:64px;
 letter-spacing:4px;
-text-shadow:0 0 20px rgba(212,175,55,0.5);
 }
 
 h2{
@@ -149,7 +136,28 @@ line-height:1.6;
 color:#eee;
 }
 
-/* ==================== 📅 GLASS COUNTDOWN ==================== */
+/* ===== ФОТО СЕКЦИИ ===== */
+
+.hero{
+background:url("PHOTO1.jpg") center/cover no-repeat;
+position:relative;
+}
+
+.location{
+background:url("PHOTO2.jpg") center/cover no-repeat;
+position:relative;
+}
+
+.hero::after,
+.location::after{
+content:"";
+position:absolute;
+top:0;left:0;
+width:100%;height:100%;
+background:rgba(0,0,0,0.6);
+}
+
+/* ===== ТАЙМЕР ===== */
 
 .calendar{
 display:flex;
@@ -162,15 +170,9 @@ margin-top:40px;
 width:140px;
 padding:25px 15px;
 border:1px solid rgba(212,175,55,0.4);
-backdrop-filter:blur(10px);
 background:rgba(255,255,255,0.05);
 border-radius:12px;
 transition:0.5s;
-}
-
-.calendar-box:hover{
-transform:translateY(-10px) scale(1.05);
-box-shadow:0 10px 40px rgba(212,175,55,0.3);
 }
 
 .calendar-box span{
@@ -179,7 +181,7 @@ color:#fff;
 display:block;
 }
 
-/* ==================== BUTTON ==================== */
+/* ===== КНОПКА ===== */
 
 button{
 margin-top:40px;
@@ -195,18 +197,6 @@ transition:0.4s;
 button:hover{
 background:#d4af37;
 color:#000;
-box-shadow:0 0 20px rgba(212,175,55,0.6);
-}
-
-/* ==================== FADE IN ==================== */
-
-section{
-animation:fadeUp 1.5s ease forwards;
-}
-
-@keyframes fadeUp{
-from{opacity:0;transform:translateY(40px)}
-to{opacity:1;transform:translateY(0)}
 }
 
 footer{
@@ -225,23 +215,24 @@ color:#777;
 <div class="letter">
 <h2>Максим & Дарья</h2>
 <p>06 июня 2026</p>
-<small>Нажмите, чтобы открыть приглашение</small>
+<small>Нажмите, чтобы открыть</small>
 </div>
 </div>
 </div>
 
+<!-- 🎵 Музыка -->
 <audio id="bgMusic" loop>
-<source src="https://cdn.pixabay.com/download/audio/2022/03/15/audio_c8c8a73467.mp3?filename=wedding-piano-110624.mp3" type="audio/mpeg">
-</audio><section>
+<source src="music.mp3" type="audio/mpeg">
+</audio>
+
+<section class="hero">
 <h1>Максим & Дарья</h1>
 <p>06 июня 2026 • Одесса</p>
 </section>
 
 <section>
 <h2>С любовью приглашаем</h2>
-<p>
-С трепетом в сердце и огромной любовью мы приглашаем вас разделить с нами самый важный день нашей жизни.
-</p>
+<p>Мы будем счастливы видеть вас рядом в самый важный день нашей жизни.</p>
 </section>
 
 <section>
@@ -252,14 +243,14 @@ color:#777;
 <div class="calendar-box"><span id="minutes"></span>Минут</div>
 <div class="calendar-box"><span id="seconds"></span>Секунд</div>
 </div>
+</section><section class="location">
+<h2>Место проведения</h2>
+<p>Ресторан «У бабушки» • Одесса • 19:00</p>
 </section>
 
 <section>
 <h2>Дресс-код</h2>
-<p>
-Для дам — элегантные вечерние платья в благородных оттенках.  
-Для джентльменов — классические костюмы или смокинги.
-</p>
+<p>Элегантные вечерние образы в классическом стиле.</p>
 </section>
 
 <section>
@@ -283,9 +274,9 @@ document.getElementById("envelopeScreen").style.display="none";
 },1000);
 },1200);
 
-const music=document.getElementById("bgMusic");
+let music=document.getElementById("bgMusic");
 music.volume=0.4;
-music.play().catch(()=>{});
+music.play();
 }
 
 const weddingDate=new Date("June 6, 2026 19:00:00").getTime();
@@ -294,15 +285,10 @@ setInterval(()=>{
 const now=new Date().getTime();
 const distance=weddingDate-now;
 
-const days=Math.floor(distance/(1000*60*60*24));
-const hours=Math.floor((distance%(1000*60*60*24))/(1000*60*60));
-const minutes=Math.floor((distance%(1000*60*60))/(1000*60));
-const seconds=Math.floor((distance%(1000*60))/1000);
-
-document.getElementById("days").innerHTML=days;
-document.getElementById("hours").innerHTML=hours;
-document.getElementById("minutes").innerHTML=minutes;
-document.getElementById("seconds").innerHTML=seconds;
+document.getElementById("days").innerHTML=Math.floor(distance/(1000*60*60*24));
+document.getElementById("hours").innerHTML=Math.floor((distance%(1000*60*60*24))/(1000*60*60));
+document.getElementById("minutes").innerHTML=Math.floor((distance%(1000*60*60))/(1000*60));
+document.getElementById("seconds").innerHTML=Math.floor((distance%(1000*60))/1000);
 },1000);
 </script>
 
