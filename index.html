@@ -266,7 +266,10 @@ color:#777;
 
 <script>
 function openEnvelope(){
+
+// открытие конверта
 document.querySelector(".envelope").classList.add("open");
+
 setTimeout(()=>{
 document.getElementById("envelopeScreen").style.opacity="0";
 setTimeout(()=>{
@@ -274,16 +277,35 @@ document.getElementById("envelopeScreen").style.display="none";
 },1000);
 },1200);
 
-let music=document.getElementById("bgMusic");
-music.volume=0.4;
-music.play();
+// 🎵 запуск музыки безопасным способом
+let music = document.getElementById("bgMusic");
+
+music.volume = 0.5;
+
+let playPromise = music.play();
+
+if (playPromise !== undefined) {
+  playPromise.then(_ => {
+    console.log("Музыка играет");
+  })
+  .catch(error => {
+    console.log("Автозапуск заблокирован, пробуем через дополнительный клик");
+
+    // если браузер заблокировал — запускаем при любом следующем клике
+    document.body.addEventListener("click", function(){
+      music.play();
+    }, { once: true });
+
+  });
 }
 
-const weddingDate=new Date("June 6, 2026 19:00:00").getTime();
+}
+
+const weddingDate = new Date("June 6, 2026 19:00:00").getTime();
 
 setInterval(()=>{
-const now=new Date().getTime();
-const distance=weddingDate-now;
+const now = new Date().getTime();
+const distance = weddingDate - now;
 
 document.getElementById("days").innerHTML=Math.floor(distance/(1000*60*60*24));
 document.getElementById("hours").innerHTML=Math.floor((distance%(1000*60*60*24))/(1000*60*60));
@@ -291,6 +313,5 @@ document.getElementById("minutes").innerHTML=Math.floor((distance%(1000*60*60))/
 document.getElementById("seconds").innerHTML=Math.floor((distance%(1000*60))/1000);
 },1000);
 </script>
-
-</body>
 </html>
+
